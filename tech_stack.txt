@@ -1,7 +1,7 @@
 # tech_stack.txt
 # This file outlines the core technologies and libraries used in the project.
 
-Base Language: Python 3.10
+Base Language: Python 3.11
 
 ML Frameworks:
   - PyTorch
