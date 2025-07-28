@@ -1,0 +1,49 @@
+# requirements.txt
+# This file lists the Python packages required for the project, with specific versions
+# declared for compatibility with Python 3.10.
+# To install these packages, activate your virtual environment and run:
+# pip install -r requirements.txt
+
+# ML Frameworks
+# Note: For GPU (CUDA) support, you might need to install torch and tensorflow
+# manually first using their specific installation commands from their official websites.
+# The versions below are generally compatible with Python 3.10.
+torch==2.7.1
+tensorflow==2.19.0 # This version was already satisfied in your logs
+torch-geometric==2.6.1 # Requires torch
+
+# Time Series / Econometrics
+statsmodels==0.14.5
+arch==7.2.0
+tsfresh==0.21.0
+pywt==1.6.0 # Declared version. If this fails, refer to manual download steps.
+
+# Numerical Optimization
+scipy==1.13.1 # Latest stable version compatible with Python 3.10
+cvxpy==1.5.2 # Latest stable version compatible with Python 3.10
+
+# Graph Analysis
+networkx==3.2.1 # Latest stable version compatible with Python 3.10
+python-igraph==0.11.5 # The package name for igraph in pip, latest stable compatible with Python 3.10
+
+# Data Source / API Access (Python wrappers/libraries for listed APIs)
+# Note: Some data sources like WRDS, QuantConnect are platforms/services, not direct pip installable libraries.
+# For Yahoo Finance, 'yfinance' is a common unofficial wrapper.
+yfinance==0.2.40 # Latest stable version compatible with Python 3.10
+alpha_vantage==2.3.1 # Latest stable version compatible with Python 3.10
+quandl==3.7.0 # Latest stable version compatible with Python 3.10
+fredapi==0.5.0 # Latest stable version compatible with Python 3.10
+python-edgar==3.0.0 # Latest stable version compatible with Python 3.10
+
+# Backtesting & Evaluation
+bt==0.2.9 # Latest stable version compatible with Python 3.10
+backtrader==1.9.76.123 # Latest stable version compatible with Python 3.10
+
+# Visualization
+matplotlib==3.9.0 # Latest stable version compatible with Python 3.10
+seaborn==0.13.2 # Latest stable version compatible with Python 3.10
+plotly==5.22.0 # Latest stable version compatible with Python 3.10
+
+# General utilities often useful in data science projects
+pandas==2.2.2 # Latest stable version compatible with Python 3.10
+numpy==1.26.4 # Latest stable version compatible with Python 3.10 (compatible with pandas 2.2.2)

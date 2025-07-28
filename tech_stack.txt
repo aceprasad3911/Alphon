@@ -1,0 +1,41 @@
+# tech_stack.txt
+# This file outlines the core technologies and libraries used in the project.
+
+Base Language: Python 3.10
+
+ML Frameworks:
+  - PyTorch
+  - TensorFlow
+  - PyTorch Geometric
+
+Time Series / Econometrics:
+  - Statsmodels
+  - Arch
+  - Tsfresh
+  - Pywt
+
+Numerical Optimization:
+  - SciPy
+  - Cvxpy
+
+Graph Analysis:
+  - networkx
+  - igraph
+
+Data Source / API’s:
+  - Yahoo Finance (unofficial access via libraries like yfinance)
+  - Alpha Vantage
+  - Quandl (Nasdaq Data Link)
+  - WRDS (Wharton Research Data Services)
+  - FRED (Federal Reserve Economic Data)
+  - EDGAR API
+
+Backtesting & Evaluation:
+  - Bt
+  - Backtrader
+  - QuantConnect (platform, not a direct Python library for installation)
+
+Visualization:
+  - Matplotlib
+  - Seaborn
+  - Plotly
