@@ -1,0 +1,1 @@
+# Defines how alpha signals are converted into trading strategies

@@ -16,7 +16,7 @@ END_DATE = datetime.now().strftime('%Y-%m-%d') # Up to today
 
 # FRED API Key (Get yours from https://fred.stlouisfed.org/docs/api/api_key.html)
 # It's best practice to store API keys securely (e.g., environment variables)
-FRED_API_KEY = 'YOUR_FRED_API_KEY' # <<< REPLACE WITH YOUR ACTUAL FRED API KEY
+FRED_API_KEY = 'YOUR_FRED_API_KEY' #TODO REPLACE WITH YOUR ACTUAL FRED API KEY
 
 # Output directories
 RAW_DATA_DIR = 'data/raw'

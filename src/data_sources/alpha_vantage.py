@@ -1,0 +1,1 @@
+# Handles data fetching for Alpha Vantage API
