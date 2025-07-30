@@ -1,1 +1,62 @@
+# model_config.yaml
+
 # Hyperparameters and architecture choices for ML models
+
+# Global model training settings
+training_defaults:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 0.001
+  optimizer: "Adam"
+  loss_function: "MSELoss"
+  early_stopping_patience: 10
+  device: "cuda" # or "cpu"
+
+# Baseline Models
+linear_regression:
+  fit_intercept: true
+
+random_forest:
+  n_estimators: 100
+  max_depth: 10
+  random_state: 42
+
+# GNN Models
+gnn_gat:
+  num_layers: 2
+  hidden_channels: 64
+  num_heads: 4
+  dropout: 0.2
+  output_dim: 32 # Dimension of learned node embeddings
+
+gnn_gcn:
+  num_layers: 3
+  hidden_channels: 128
+  dropout: 0.1
+  output_dim: 64
+
+# Time Series Models
+cnn_lstm_hybrid:
+  cnn_filters: 64
+  cnn_kernel_size: 3
+  lstm_hidden_size: 128
+  lstm_num_layers: 2
+  dropout: 0.3
+
+transformer_encoder:
+  d_model: 128
+  nhead: 8
+  num_encoder_layers: 3
+  dim_feedforward: 512
+  dropout: 0.1
+
+# Fusion Model
+fusion_strategy: "concatenation" # or "attention", "gating"
+fusion_mlp_layers: [256, 128] # Layers for MLP after fusion
+
+# Disentanglement Model (e.g., Beta-VAE)
+beta_vae:
+  latent_dim: 16
+  beta: 4.0 # Weight for KL divergence term
+  encoder_layers: [128, 64]
+  decoder_layers: [64, 128]

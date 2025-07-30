@@ -1,0 +1,38 @@
+# data_source_config.yaml
+
+# Configuration for data sources
+
+yahoo_finance:
+  base_url: "https://query1.finance.yahoo.com/v7/finance/download/"
+  default_symbols: ["AAPL", "MSFT", "GOOGL", "AMZN"]
+  default_start_date: "2010-01-01"
+  default_end_date: "2023-12-31"
+  data_frequency: "daily" # or "weekly", "monthly"
+
+alpha_vantage:
+  base_url: "https://www.alphavantage.co/query"
+  data_frequency: "daily" # or "weekly", "monthly", "intraday"
+  output_size: "full" # or "compact"
+  premium_tier: false # Set to true if you have a premium subscription
+
+quandl:
+  base_url: "https://data.nasdaq.com/api/v3/"
+  default_dataset_code: "WIKI/AAPL" # Example: WIKI prices
+  data_frequency: "daily"
+
+fred:
+  base_url: "https://api.stlouisfed.org/fred/series/observations"
+  default_series_ids: ["GDP", "CPIAUCSL", "UNRATE"] # Example series IDs
+  data_frequency: "daily" # or "weekly", "monthly", "quarterly", "annual"
+
+wrds:
+  # WRDS connection details are often handled by the wrds library itself
+  # This section can define default tables or schemas to query
+  default_library: "crsp"
+  default_table: "msf" # Monthly stock file
+
+edgar:
+  base_url: "https://data.sec.gov/"
+  # Define common endpoints or search parameters
+  filing_types: ["10-K", "10-Q"]
+  default_cik: "0000320193" # Apple Inc. CIK
