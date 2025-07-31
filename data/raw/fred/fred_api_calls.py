@@ -4,6 +4,7 @@
 
 import yaml
 from pathlib import Path
+import requests # Ensure requests is imported here
 
 # Return to base directory (Alphon) by finding parent directories (x4)
 base_dir = Path(__file__).resolve().parent.parent.parent.parent
@@ -20,64 +21,105 @@ print(f"FRED API Key:{fred_api_key}")
 ####################################
 ### 1. Category API Calls ##########
 ####################################
-import requests
 
 # Get Category ---------------------------------------------------------------------------------
 def get_category(category_id):
-    url = f'https://api.stlouisfed.org/fred/category?category_id={category_id}&api_key={fred_api_key}'
+    # ADD file_type=json HERE
+    url = f'https://api.stlouisfed.org/fred/category?category_id={category_id}&api_key={fred_api_key}&file_type=json'
     r = requests.get(url)
-    data = r.json()
-    print(data)
+    print(f"Status Code: {r.status_code}")
+    print(f"Response Text: {r.text}") # Print raw response text
+    try:
+        data = r.json()
+        print(data)
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"JSON Decode Error: {e}")
+        print("Response was not valid JSON. Check API key, URL, and rate limits.")
 
 # Example Usage
 get_category(125)  # Replace with desired category_id
 
 # Get Child Categories -------------------------------------------------------------------------
 def get_child_categories(parent_category_id):
-    url = f'https://api.stlouisfed.org/fred/category/children?category_id={parent_category_id}&api_key={fred_api_key}'
+    # ADD file_type=json HERE
+    url = f'https://api.stlouisfed.org/fred/category/children?category_id={parent_category_id}&api_key={fred_api_key}&file_type=json'
     r = requests.get(url)
-    data = r.json()
-    print(data)
+    print(f"Status Code: {r.status_code}")
+    print(f"Response Text: {r.text}")
+    try:
+        data = r.json()
+        print(data)
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"JSON Decode Error: {e}")
+        print("Response was not valid JSON. Check API key, URL, and rate limits.")
 
 # Example Usage
 get_child_categories(13)  # Replace with desired parent_category_id
 
 # Get Related Categories ----------------------------------------------------------------------
 def get_related_categories(category_id):
-    url = f'https://api.stlouisfed.org/fred/category/related?category_id={category_id}&api_key={fred_api_key}'
+    # ADD file_type=json HERE
+    url = f'https://api.stlouisfed.org/fred/category/related?category_id={category_id}&api_key={fred_api_key}&file_type=json'
     r = requests.get(url)
-    data = r.json()
-    print(data)
+    print(f"Status Code: {r.status_code}")
+    print(f"Response Text: {r.text}")
+    try:
+        data = r.json()
+        print(data)
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"JSON Decode Error: {e}")
+        print("Response was not valid JSON. Check API key, URL, and rate limits.")
 
 # Example Usage
 get_related_categories(32073)  # Replace with desired category_id
 
 # Get Series in a Category -------------------------------------------------------------------
 def get_series_in_category(category_id):
-    url = f'https://api.stlouisfed.org/fred/category/series?category_id={category_id}&api_key={fred_api_key}'
+    # ADD file_type=json HERE
+    url = f'https://api.stlouisfed.org/fred/category/series?category_id={category_id}&api_key={fred_api_key}&file_type=json'
     r = requests.get(url)
-    data = r.json()
-    print(data)
+    print(f"Status Code: {r.status_code}")
+    print(f"Response Text: {r.text}")
+    try:
+        data = r.json()
+        print(data)
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"JSON Decode Error: {e}")
+        print("Response was not valid JSON. Check API key, URL, and rate limits.")
 
 # Example Usage
 get_series_in_category(125)  # Replace with desired category_id
 
 # Get Tags for a Category ---------------------------------------------------------------------
 def get_tags_for_category(category_id):
-    url = f'https://api.stlouisfed.org/fred/category/tags?category_id={category_id}&api_key={fred_api_key}'
+    # ADD file_type=json HERE
+    url = f'https://api.stlouisfed.org/fred/category/tags?category_id={category_id}&api_key={fred_api_key}&file_type=json'
     r = requests.get(url)
-    data = r.json()
-    print(data)
+    print(f"Status Code: {r.status_code}")
+    print(f"Response Text: {r.text}")
+    try:
+        data = r.json()
+        print(data)
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"JSON Decode Error: {e}")
+        print("Response was not valid JSON. Check API key, URL, and rate limits.")
 
 # Example Usage
 get_tags_for_category(125)  # Replace with desired category_id
 
 # Get Related Tags for a Category -------------------------------------------------------------
 def get_related_tags(category_id, tag_names):
-    url = f'https://api.stlouisfed.org/fred/category/related_tags?category_id={category_id}&tag_names={tag_names}&api_key={fred_api_key}'
+    # ADD file_type=json HERE
+    url = f'https://api.stlouisfed.org/fred/category/related_tags?category_id={category_id}&tag_names={tag_names}&api_key={fred_api_key}&file_type=json'
     r = requests.get(url)
-    data = r.json()
-    print(data)
+    print(f"Status Code: {r.status_code}")
+    print(f"Response Text: {r.text}")
+    try:
+        data = r.json()
+        print(data)
+    except requests.exceptions.JSONDecodeError as e:
+        print(f"JSON Decode Error: {e}")
+        print("Response was not valid JSON. Check API key, URL, and rate limits.")
 
 # Example Usage
 get_related_tags(125, 'services;quarterly')  # Replace with desired tag_names
