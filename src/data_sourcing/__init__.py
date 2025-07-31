@@ -1,6 +1,6 @@
-# src/data_sources/__init__.py
+# src/data_sourcing/__init__.py
 
-# This file makes the 'data_sources' directory a Python package.
+# This file makes the 'data_sourcing' directory a Python package.
 
 # Import specific data source classes for easier access
 from .base import DataSource

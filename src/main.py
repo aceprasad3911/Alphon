@@ -6,7 +6,7 @@ from datetime import datetime
 
 # Import modules from your project structure
 from src.utils.config_loader import load_all_configs
-from src.data_sources import DATA_SOURCES
+from src.data_sourcing import DATA_SOURCES
 from src.processing.cleaner import clean_data, align_data
 from src.processing.featurizer import generate_features
 from src.models import BaseModel, LinearRegressionModel, RandomForestModel, GATModel, CNNLSTMHybrid, FusionModel, \
@@ -50,7 +50,7 @@ def run_data_engineering(configs: dict) -> Dict[str, pd.DataFrame]:
 
     # 1. Data Acquisition
     acquired_data = {}
-    data_sources_config = configs.get("data_sources", {})
+    data_sources_config = configs.get("data_sourcing", {})
 
     # Example: Fetching Yahoo Finance data
     yahoo_config = data_sources_config.get("yahoo_finance", {})

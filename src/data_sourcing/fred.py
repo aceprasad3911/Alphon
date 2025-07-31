@@ -1,4 +1,4 @@
-# src/data_sources/fred.py
+# src/data_sourcing/fred_api_calls.py
 
 # Handles data fetching for FRED API
 

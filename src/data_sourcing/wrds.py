@@ -1,4 +1,4 @@
-# src/data_sources/wrds.py
+# src/data_sourcing/wrds.py
 
 # Handles data fetching for WRDS API
 

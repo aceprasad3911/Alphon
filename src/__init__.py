@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 
 # You can also import commonly used modules or functions here for easier access
 # from .utils.config_loader import load_config
-# from .data_sources.yfinance import YahooFinanceSource
+# from .data_sourcing.yfinance import YahooFinanceSource
 
 # Define package version
 __version__ = "0.1.0"

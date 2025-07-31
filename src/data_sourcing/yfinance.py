@@ -1,4 +1,4 @@
-# src/data_sources/yfinance.py
+# src/data_sourcing/yfinance.py
 
 # Handles data fetching for YFinance API
 

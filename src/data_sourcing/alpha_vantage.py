@@ -1,4 +1,4 @@
-# src/data_sources/alpha_vantage_notes.txt
+# src/data_sourcing/alpha_vantage_api_notes.txt
 
 # Handles data fetching for Alpha Vantage API
 

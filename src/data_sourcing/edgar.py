@@ -1,4 +1,4 @@
-# src/data_sources/edgar.py
+# src/data_sourcing/edgar.py
 
 # Handles data fetching for EDGAR API
 

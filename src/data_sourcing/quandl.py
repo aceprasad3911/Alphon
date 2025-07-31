@@ -1,4 +1,4 @@
-# src/data_sources/quandl.py
+# src/data_sourcing/quandl.py
 
 # Handles data fetching for Quandl API
 
