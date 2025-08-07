@@ -13,4 +13,20 @@ git checkout "phase_branch"
 git checkout -b "sub_branch"
 git push -u origin "sub_branch"
 
-# More functions to be added
+# Push sub-branch to phase branch
+git checkout phase_1
+git pull origin phase_1
+git checkout sub_branch
+git merge phase_1  # Optional
+git checkout phase_1
+git merge sub_branch
+git push origin phase_1
+
+# Push phase branch to main
+git checkout main
+git pull origin main
+git checkout sub_branch
+git merge main  # Optional
+git checkout main
+git merge sub_branch
+git push origin "branch_name"
