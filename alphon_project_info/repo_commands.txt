@@ -30,3 +30,12 @@ git merge main  # Optional
 git checkout main
 git merge sub_branch
 git push origin "branch_name"
+
+# Remove api_keys.yaml from repo & commit history
+git rm --cached config/api_keys.yaml
+pip install git-filter-repo
+git filter-repo --path config/api_keys.yaml --invert-paths --force
+git remote add origin https://github.com/aceprasad3911/Alphon.git
+git push --set-upstream origin main --force
+
+#
