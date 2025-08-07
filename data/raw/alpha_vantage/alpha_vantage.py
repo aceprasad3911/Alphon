@@ -1,10 +1,11 @@
-# quandl.py
+# alpha_vantage.py
 
 # Formatted Data Calls from API
 
-# https://data.nasdaq.com/account/profile for API Key
+# https://outlook.office.com/mail/id/AAQkADFjNzU5MzZmLTFhMDEtNDk5Mi05ODhjLTQ1NTgzZjgyMzZhNAAQANerZ2cYFd9OrOmi7wAnRzE%3D for BackUp API Key
 
-# import quandl
+
+import quandl
 import yaml
 from pathlib import Path
 
@@ -16,6 +17,6 @@ config_path = base_dir / 'config' / 'api_keys.yaml'
 with open(config_path, 'r') as file:
     config = yaml.safe_load(file)
 # Access the API key
-quandl_api_key = config['quandl']['api_key']
+alpha_vantage_api_key = config['alpha_vantage']['api_key']
 # Now use the API key in API calls
-print(f"Quandl API Key:{quandl_api_key}")
+print(f"Alpha Vantage API Key:{alpha_vantage_api_key}")

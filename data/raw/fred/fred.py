@@ -1,10 +1,11 @@
-# quandl.py
+# fred.py
+
+# https://fredaccount.stlouisfed.org/apikeys
 
 # Formatted Data Calls from API
 
-# https://data.nasdaq.com/account/profile for API Key
 
-# import quandl
+import quandl
 import yaml
 from pathlib import Path
 
@@ -16,6 +17,6 @@ config_path = base_dir / 'config' / 'api_keys.yaml'
 with open(config_path, 'r') as file:
     config = yaml.safe_load(file)
 # Access the API key
-quandl_api_key = config['quandl']['api_key']
+fred_api_key = config['fred']['api_key']
 # Now use the API key in API calls
-print(f"Quandl API Key:{quandl_api_key}")
+print(f"FRED API Key:{fred_api_key}")
