@@ -1,0 +1,16 @@
+# Commit & Push
+cd "directory"
+git add .
+git commit -m "Message"
+git push -u origin "branch_name"
+
+# Pull (Repo's main branch)
+git fetch origin
+git reset --hard origin/main
+
+# Create task branch within phase branch
+git checkout "phase_branch"
+git checkout -b "sub_branch"
+git push -u origin "sub_branch"
+
+# More functions to be added
