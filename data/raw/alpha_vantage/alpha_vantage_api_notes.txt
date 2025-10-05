@@ -1,0 +1,81 @@
+# alpha_vantage_notes.txt
+
+#-----------------------------------------------------------------------------------------------------------------------
+# 1. Core Time Series Stock Data APIs
+#
+# Intraday Data (TIME_SERIES_INTRADAY):
+#
+# Purpose: Provides current and historical intraday OHLCV (Open, High, Low, Close, Volume) data for equities, including pre-market and post-market hours. This is vital for capturing granular market dynamics and constructing high-frequency features.
+# Key Parameters:
+# symbol: The equity ticker (e.g., IBM).
+# interval: Time interval (1min, 5min, 15min, 30min, 60min).
+# adjusted: Boolean to get split/dividend-adjusted data (default: true).
+# extended_hours: Boolean to include extended trading hours (default: true).
+# month: Optional, to query specific historical months (YYYY-MM).
+# outputsize: compact (latest 100 points) or full (trailing 30 days or full month if month is specified).
+# Relevance to Project: Directly supports the "Deep Mathematical Analysis of Time-Series" by providing the raw, high-frequency data needed for representation learning and feature engineering (e.g., wavelet transforms, spectral analysis).
+# Daily Data (TIME_SERIES_DAILY & TIME_SERIES_DAILY_ADJUSTED):
+#
+# Purpose: Provides raw (TIME_SERIES_DAILY) and split/dividend-adjusted (TIME_SERIES_DAILY_ADJUSTED) daily OHLCV data with over 20 years of historical depth.
+# Key Parameters:
+# symbol: The equity ticker.
+# outputsize: compact (latest 100 points) or full (full 20+ years).
+# Relevance to Project: Essential for analyzing longer-term trends and patterns in financial time series, complementing intraday data for a comprehensive view. The adjusted data is crucial for accurate historical analysis, avoiding artificial price perturbations.
+# Weekly and Monthly Data (TIME_SERIES_WEEKLY, TIME_SERIES_WEEKLY_ADJUSTED, TIME_SERIES_MONTHLY, TIME_SERIES_MONTHLY_ADJUSTED):
+#
+# Purpose: Provides weekly and monthly OHLCV data, both raw and adjusted, with 20+ years of history.
+# Relevance to Project: Useful for understanding broader market cycles and for developing features that capture longer-term dependencies, contributing to the "Robust Alpha Generation" aspect.
+#-----------------------------------------------------------------------------------------------------------------------
+# 2. Fundamental Data
+#
+# Company Overview (OVERVIEW):
+#
+# Purpose: Returns company information, financial ratios, and key metrics.
+# Relevance to Project: Provides fundamental metrics like P/E, EV/EBITDA, and ROE, which are explicitly listed in your project's "Feature Set" as "Fundamental Metrics." This data can be integrated into your numerical representation learning models.
+# Income Statement (INCOME_STATEMENT), Balance Sheet (BALANCE_SHEET), Cash Flow (CASH_FLOW):
+#
+# Purpose: Provides annual and quarterly financial statements.
+# Relevance to Project: Offers detailed financial data that can be used to derive additional fundamental features and provide a deeper understanding of a company's financial health, which can influence alpha signals.
+# Earnings History (EARNINGS) & Earnings Estimates (EARNINGS_ESTIMATES):
+#
+# Purpose: Provides historical earnings per share (EPS) and revenue estimates.
+# Relevance to Project: Can be used as inputs for models that aim to predict future price movements based on earnings surprises or analyst sentiment.
+#-----------------------------------------------------------------------------------------------------------------------
+# 3. Alpha Intelligence™
+#
+# Market News & Sentiment (NEWS_SENTIMENT):
+#
+# Purpose: Provides live and historical market news and sentiment data.
+# Relevance to Project: While your project focuses on numerical data, sentiment can be a powerful numerical feature. This API could be used to extract sentiment scores (if available or derivable) and integrate them as additional numerical features, enhancing the interpretability and robustness of generated alpha signals.
+# Advanced Analytics (Fixed Window & Sliding Window):
+#
+# Purpose: Calculates various advanced analytics metrics (e.g., mean, variance, standard deviation, correlation, autocorrelation, max drawdown) over fixed or sliding time windows.
+# Relevance to Project: Directly supports the "Deep Mathematical Analysis of Time-Series" by providing pre-calculated statistical measures. This can be particularly useful for:
+# Feature Engineering: Generating features like statistical moments of returns (skewness, kurtosis) and autocorrelation, which are listed in your "Feature Set."
+# Risk Management: Calculating variance and standard deviation for portfolio optimization and risk-adjusted returns.
+# Graph Construction: The correlation matrix from ANALYTICS_FIXED_WINDOW or ANALYTICS_SLIDING_WINDOW can be directly used to build "correlation matrices" for your "Graph Data" and "Graph-Based Features."
+#-----------------------------------------------------------------------------------------------------------------------
+# 4. Economic Indicators
+#
+# REAL_GDP, REAL_GDP_PER_CAPITA, TREASURY_YIELD, FEDERAL_FUNDS_RATE, CPI, INFLATION, RETAIL_SALES, DURABLES, UNEMPLOYMENT, NONFARM_PAYROLL:
+# Purpose: Provides various macroeconomic indicators for the United States.
+# Relevance to Project: These indicators are crucial for developing "Regime Indicators" and understanding "Macroeconomic Cycles" as outlined in your "Feature Set." They can help in identifying different market conditions and adapting alpha generation strategies accordingly.
+#-----------------------------------------------------------------------------------------------------------------------
+# 5. Technical Indicators
+#
+# Moving Averages (SMA, EMA, WMA, DEMA, TEMA, TRIMA, KAMA, MAMA, T3):
+#
+# Purpose: Provides various types of moving averages.
+# Relevance to Project: Directly supports the "Technical Indicators" in your "Feature Set," particularly "Momentum Indicators" and "Mean Reversion Signals."
+# Momentum Indicators (MACD, MACDEXT, STOCH, STOCHF, RSI, STOCHRSI, WILLR, ADX, ADXR, APO, PPO, MOM, BOP, CCI, CMO, ROC, ROCR):
+#
+# Purpose: Provides a wide range of momentum and oscillator indicators.
+# Relevance to Project: Directly aligns with your "Technical Indicators" feature set, providing a rich source of data for "Momentum Indicators" and other signal generation.
+# Volume-Based Indicators (AD, ADOSC, OBV):
+#
+# Purpose: Provides indicators related to accumulation/distribution and on-balance volume.
+# Relevance to Project: Directly supports "Volume-Based Indicators" in your "Feature Set" (e.g., OBV, Accumulation/Distribution Line).
+# Volatility Indicators (BBANDS, ATR, NATR):
+#
+# Purpose: Provides Bollinger Bands and Average True Range.
+# Relevance to Project: Directly supports "Volatility Indicators" in your "Feature Set."
