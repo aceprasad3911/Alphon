@@ -1,0 +1,4 @@
+# Generated reports and visualizations
+# Backtest Summary
+# Interpretability Analysis
+# Performance Charts (e.g., equity curve, drawdown chart)

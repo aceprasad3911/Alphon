@@ -1,0 +1,145 @@
+# fred_api_calls.py
+
+#-----------------------------------------------------------------------------------------------------------------------
+# 1. Category API Calls
+#
+# Get Category (fred/category):
+#
+# Purpose: Retrieves information about a specific economic data category.
+# Relevance to Project: While not directly listed in the "Feature Set," understanding the categorization of economic data can help in structuring data acquisition and feature engineering. It provides context for the types of data available and their relationships, which can indirectly support the "Deep Mathematical Analysis of Time-Series and Graph Structures."
+#
+# Get Child Categories (fred/category/children):
+#
+# Purpose: Lists the immediate sub-categories of a given category.
+# Relevance to Project: Similar to `get_category`, this helps in navigating the FRED data hierarchy. It can be useful for systematically exploring and acquiring data within specific economic domains, contributing to the "Data & API's" section by identifying relevant datasets.
+#
+# Get Related Categories (fred/category/related):
+#
+# Purpose: Identifies categories that are related to a specified category.
+# Relevance to Project: This API can assist in discovering interconnected economic concepts. For "Graph-Based Features," understanding related categories might inspire the construction of more sophisticated graph structures that capture relationships between different economic sectors or indicators.
+#
+# Get Series in a Category (fred/category/series):
+#
+# Purpose: Retrieves all economic data series belonging to a specific category.
+# Relevance to Project: Directly supports the "Data & API's" section by allowing the bulk retrieval of series relevant to a particular economic domain. This is crucial for populating the "Feature Set" with various numerical time-series data.
+#
+# Get Tags for a Category (fred/category/tags):
+#
+# Purpose: Lists the tags associated with series within a given category.
+# Relevance to Project: Tags provide additional metadata about the series. This can be valuable for refining data selection, understanding data characteristics (e.g., frequency, seasonal adjustment), and potentially for creating more granular "Regime Indicators" or filtering data for specific analyses.
+#
+# Get Related Tags for a Category (fred/category/related_tags):
+#
+# Purpose: Finds tags that are related to a specified set of tags within a category.
+# Relevance to Project: This API helps in discovering co-occurring tags, which can indicate underlying relationships or common characteristics among economic series. This can inform the selection of features and the design of numerical representation learning models, especially when aiming for "disentangled numerical representations."
+#-----------------------------------------------------------------------------------------------------------------------
+# 2. Releases API Calls
+#
+# Get Releases (fred/releases):
+#
+# Purpose: Retrieves a list of all economic data releases.
+# Relevance to Project: Provides an overview of the data release schedule and available datasets. While not directly used for feature engineering, it helps in understanding the data landscape and planning data acquisition strategies, supporting the "Data & API's" section.
+#
+# Get Release Metadata (fred/release):
+#
+# Purpose: Provides detailed information about a specific economic data release.
+# Relevance to Project: Offers context for the data, including the source and notes. This can be important for data validation and understanding potential biases or limitations, contributing to addressing "Validity & Quality" issues mentioned in "Potential Issues."
+#
+# Get Release Dates (fred/release/dates):
+#
+# Purpose: Lists the publication dates for a specific economic data release.
+# Relevance to Project: Useful for understanding the timeliness of data and for backtesting purposes, ensuring that only available data is used at any given point in time to avoid "Lookahead bias."
+#
+# Get Series in a Release (fred/release/series):
+#
+# Purpose: Retrieves all economic data series contained within a specific release.
+# Relevance to Project: Directly supports data acquisition for specific economic indicators or datasets that are part of a known release. This can be a targeted way to gather data for the "Feature Set."
+#
+# Get Sources for a Release (fred/release/sources):
+#
+# Purpose: Provides information about the sources of the data within a release.
+# Relevance to Project: Important for data provenance and credibility. Understanding data sources can help in assessing data quality and reliability, which is crucial for "Robust Alpha Generation."
+#
+# Get Tags for a Release (fred/release/tags):
+#
+# Purpose: Lists the tags associated with series within a specific release.
+# Relevance to Project: Similar to category tags, release tags provide metadata that can help in filtering and understanding the characteristics of the data within a release, aiding in feature selection and model design.
+#
+# Get Related Tags for a Release (fred/release/related_tags):
+#
+# Purpose: Finds tags that are related to a specified set of tags within a release.
+# Relevance to Project: Helps in discovering co-occurring tags within a release, which can indicate underlying relationships or common characteristics among the economic series published together. This can inform the selection of features and the design of numerical representation learning models.
+#
+# Get Release Tables (fred/release/tables):
+#
+# Purpose: Retrieves the data tables associated with a specific release.
+# Relevance to Project: Provides structured access to the data as presented in the original release. This can be a valuable way to obtain data in a pre-organized format, potentially simplifying some aspects of data engineering.
+#-----------------------------------------------------------------------------------------------------------------------
+# 3. Series API Calls
+#
+# Get an Economic Data Series (fred/series):
+#
+# Purpose: Retrieves information about a specific economic data series.
+# Relevance to Project: This is a fundamental API for accessing individual time series data. It's essential for gathering the raw numerical data that forms the basis of your "Feature Set," including price data, fundamental metrics, and macroeconomic indicators.
+#
+# Get Categories for a Series (fred/series/categories):
+#
+# Purpose: Lists the categories to which a specific economic data series belongs.
+# Relevance to Project: Provides contextual information about a series, helping to understand its economic domain. This can be useful for organizing and interpreting the "Feature Set" and for building graph structures based on categorical relationships.
+#
+# Get Observations for a Series (fred/series/observations):
+#
+# Purpose: Retrieves the actual data values (observations) for a specific economic data series.
+# Relevance to Project: This is the most critical API for your project as it provides the core numerical time-series data. It directly feeds into the "Deep Mathematical Analysis of Time-Series" and is the source for calculating "Technical Indicators," "Time-Series Specific Features," and "Regime Indicators." The ability to specify `realtime_start`, `realtime_end`, `observation_start`, `observation_end`, `units`, and `frequency` is vital for robust data preprocessing and backtesting.
+#
+# Get Release for a Series (fred/series/release):
+#
+# Purpose: Identifies the release that contains a specific economic data series.
+# Relevance to Project: Helps in tracing the origin of a data series, which can be important for understanding its publication schedule and any associated notes or revisions. This contributes to data quality control and avoiding "Lookahead bias."
+#
+# Search for Series (fred/series/search):
+#
+# Purpose: Allows searching for economic data series based on keywords.
+# Relevance to Project: Facilitates the discovery of relevant data series for your "Feature Set" and "Data & API's" section. It's a powerful tool for identifying new potential alpha signals or macroeconomic indicators.
+#
+# Get Tags for a Series Search (fred/series/search/tags):
+#
+# Purpose: Lists the tags associated with series found through a search query.
+# Relevance to Project: Helps in understanding the common characteristics and classifications of series related to a specific search term. This can guide feature engineering and the development of "disentangled numerical representations."
+#
+# Get Related Tags for a Series Search (fred/series/search/related_tags):
+#
+# Purpose: Finds tags that are related to a specified set of tags within the results of a series search.
+# Relevance to Project: Provides deeper insights into the relationships between different economic concepts and their associated data. This can be particularly useful for building complex "Graph-Based Features" and understanding network effects.
+#
+# Get Tags for a Series (fred/series/tags):
+#
+# Purpose: Lists the tags associated with a specific economic data series.
+# Relevance to Project: Tags provide granular metadata about a series (e.g., frequency, seasonal adjustment, source). This information is crucial for proper data handling, preprocessing, and for informing the design of time-series models and feature extraction.
+#
+# Get Series Updates (fred/series/updates):
+#
+# Purpose: Retrieves a list of economic data series that have been recently updated.
+# Relevance to Project: Essential for maintaining up-to-date datasets for real-time or near real-time alpha signal generation. It helps in identifying new data points that need to be incorporated into the models.
+#
+# Get Vintage Dates for a Series (fred/series/vintagedates):
+#
+# Purpose: Provides the dates on which a specific economic data series was revised.
+# Relevance to Project: Crucial for rigorous backtesting and avoiding "Lookahead bias." By using vintage dates, you can ensure that your backtests only use the data that was actually available at a given point in time, leading to more realistic and robust performance evaluations.
+#-----------------------------------------------------------------------------------------------------------------------
+# 4. Tags API Calls
+#
+# Get FRED Tags (fred/tags):
+#
+# Purpose: Retrieves a list of all available FRED tags.
+# Relevance to Project: Provides a comprehensive overview of the metadata used to classify economic data. This can be useful for understanding the various dimensions along which data is categorized, which can inform feature selection and the design of numerical representation learning models.
+#
+# Get Related Tags (fred/related_tags):
+#
+# Purpose: Finds tags that are related to a specified set of tags.
+# Relevance to Project: Helps in discovering co-occurring tags across the entire FRED database. This can reveal hidden relationships between different economic concepts and data types, potentially leading to the creation of novel "Graph-Based Features" or more sophisticated "Regime Indicators."
+#
+# Get Series by Tags (fred/tags/series):
+#
+# Purpose: Retrieves economic data series that match a specified set of tags.
+# Relevance to Project: This is a powerful API for targeted data acquisition. It allows you to filter for series that possess specific characteristics (e.g., "monthly" and "seasonally adjusted" data for "employment"). This directly supports the "Data & API's" and "Feature Set" sections by enabling precise data selection for your numerical analysis.

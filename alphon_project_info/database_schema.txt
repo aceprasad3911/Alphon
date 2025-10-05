@@ -1,0 +1,403 @@
+# Final Database Schema for Alpha Signal Discovery Project\\
+
+1. Asset & Universe Management
+
+assets
+| Column            | Type       | Notes                       |
+| ----------------- | ---------- | --------------------------- |
+| asset\_id (PK)    | INT        | Auto-increment              |
+| ticker            | VARCHAR    | Stock ticker symbol         |
+| name              | VARCHAR    | Company name                |
+| sector            | VARCHAR    | GICS sector                 |
+| industry          | VARCHAR    | GICS industry               |
+| country           | VARCHAR    | Country of listing          |
+| currency          | VARCHAR(3) | Trading currency            |
+| listing\_exchange | VARCHAR    | Exchange code               |
+| inception\_date   | DATE       | First trading date          |
+| isin              | VARCHAR    | International Securities ID |
+| sedol             | VARCHAR    | Security identifier         |
+| active\_flag      | BOOLEAN    | In universe or not          |
+
+asset_universe_versions
+| Column                 | Type      | Notes                |
+| ---------------------- | --------- | -------------------- |
+| universe\_id (PK)      | INT       |                      |
+| description            | TEXT      | Universe description |
+| created\_at            | TIMESTAMP |                      |
+| effective\_start\_date | DATE      |                      |
+| effective\_end\_date   | DATE      |                      |
+
+asset_universe_members
+| Column            | Type    | Notes                                |
+| ----------------- | ------- | ------------------------------------ |
+| universe\_id (FK) | INT     | References `asset_universe_versions` |
+| asset\_id (FK)    | INT     | References `assets`                  |
+| weight            | DECIMAL | Optional starting weight             |
+
+2. Raw Data Storage
+
+price_data
+| Column             | Type    |
+| ------------------ | ------- |
+| price\_id (PK)     | BIGINT  |
+| asset\_id (FK)     | INT     |
+| date               | DATE    |
+| open\_price        | DECIMAL |
+| high\_price        | DECIMAL |
+| low\_price         | DECIMAL |
+| close\_price       | DECIMAL |
+| adj\_close\_price  | DECIMAL |
+| volume             | BIGINT  |
+| adjustment\_factor | DECIMAL |
+| data\_source       | VARCHAR |
+
+fundamentals
+| Column            | Type    |
+| ----------------- | ------- |
+| fund\_id (PK)     | BIGINT  |
+| asset\_id (FK)    | INT     |
+| report\_date      | DATE    |
+| fiscal\_quarter   | VARCHAR |
+| pe\_ratio         | DECIMAL |
+| ev\_ebitda        | DECIMAL |
+| roe               | DECIMAL |
+| debt\_equity      | DECIMAL |
+| cash\_flow\_ratio | DECIMAL |
+| data\_source      | VARCHAR |
+
+macro_indicators
+| Column          | Type    |
+| --------------- | ------- |
+| macro\_id (PK)  | BIGINT  |
+| indicator\_code | VARCHAR |
+| indicator\_name | VARCHAR |
+| date            | DATE    |
+| value           | DECIMAL |
+| frequency       | VARCHAR |
+| data\_source    | VARCHAR |
+
+regime_indicators
+| Column              | Type    |
+| ------------------- | ------- |
+| regime\_id (PK)     | BIGINT  |
+| date                | DATE    |
+| vix                 | DECIMAL |
+| drawdown\_marker    | DECIMAL |
+| yield\_curve\_slope | DECIMAL |
+| credit\_spread      | DECIMAL |
+| macro\_cycle        | VARCHAR |
+| data\_source        | VARCHAR |
+
+3. Feature Engineering
+
+technical_indicators
+| Column          | Type    |
+| --------------- | ------- |
+| tech\_id (PK)   | BIGINT  |
+| asset\_id (FK)  | INT     |
+| date            | DATE    |
+| momentum        | DECIMAL |
+| volatility      | DECIMAL |
+| obv             | DECIMAL |
+| mean\_reversion | DECIMAL |
+| bollinger\_band | DECIMAL |
+| ema\_fast       | DECIMAL |
+| ema\_slow       | DECIMAL |
+
+graph_features
+| Column               | Type    |
+| -------------------- | ------- |
+| graph\_feat\_id (PK) | BIGINT  |
+| asset\_id (FK)       | INT     |
+| date                 | DATE    |
+| node\_embedding      | JSONB   |
+| degree\_centrality   | DECIMAL |
+| betweenness\_central | DECIMAL |
+| eigenvector\_central | DECIMAL |
+| community\_id        | INT     |
+| graph\_density       | DECIMAL |
+| clustering\_coeff    | DECIMAL |
+
+time_series_features
+| Column            | Type    |
+| ----------------- | ------- |
+| ts\_feat\_id (PK) | BIGINT  |
+| asset\_id (FK)    | INT     |
+| date              | DATE    |
+| pacf              | DECIMAL |
+| hurst\_exp        | DECIMAL |
+| wavelet\_coeffs   | JSONB   |
+| skewness          | DECIMAL |
+| kurtosis          | DECIMAL |
+
+4. Model Lifecycle & Experiment Tracking
+
+model_runs
+| Column            | Type    |
+| ----------------- | ------- |
+| run\_id (PK)      | BIGINT  |
+| model\_name       | VARCHAR |
+| model\_type       | VARCHAR |
+| start\_date       | DATE    |
+| end\_date         | DATE    |
+| parameters        | JSONB   |
+| training\_metrics | JSONB   |
+| version\_tag      | VARCHAR |
+
+experiment_tags
+| Column              | Type      |
+| ------------------- | --------- |
+| experiment\_id (PK) | BIGINT    |
+| experiment\_name    | VARCHAR   |
+| description         | TEXT      |
+| created\_at         | TIMESTAMP |
+
+model_experiment_link
+| Column              | Type   |
+| ------------------- | ------ |
+| run\_id (FK)        | BIGINT |
+| experiment\_id (FK) | BIGINT |
+
+validation_folds
+| Column        | Type   |
+| ------------- | ------ |
+| fold\_id (PK) | BIGINT |
+| run\_id (FK)  | BIGINT |
+| fold\_number  | INT    |
+| start\_date   | DATE   |
+| end\_date     | DATE   |
+| metrics       | JSONB  |
+
+model_explanations
+| Column           | Type    |
+| ---------------- | ------- |
+| explain\_id (PK) | BIGINT  |
+| run\_id (FK)     | BIGINT  |
+| asset\_id (FK)   | INT     |
+| date             | DATE    |
+| method           | VARCHAR |
+| explanation      | JSONB   |
+
+alpha_signals
+| Column          | Type    |
+| --------------- | ------- |
+| signal\_id (PK) | BIGINT  |
+| run\_id (FK)    | BIGINT  |
+| asset\_id (FK)  | INT     |
+| date            | DATE    |
+| signal\_value   | DECIMAL |
+| confidence      | DECIMAL |
+
+5. Backtesting & Portfolio Tracking
+backtest_results
+| Column             | Type    |
+| ------------------ | ------- |
+| backtest\_id (PK)  | BIGINT  |
+| run\_id (FK)       | BIGINT  |
+| sharpe\_ratio      | DECIMAL |
+| sortino\_ratio     | DECIMAL |
+| max\_drawdown      | DECIMAL |
+| annualized\_return | DECIMAL |
+| turnover           | DECIMAL |
+| validation\_type   | VARCHAR |
+
+portfolio_holdings
+| Column            | Type    |
+| ----------------- | ------- |
+| holding\_id (PK)  | BIGINT  |
+| backtest\_id (FK) | BIGINT  |
+| date              | DATE    |
+| asset\_id (FK)    | INT     |
+| weight            | DECIMAL |
+| position\_size    | DECIMAL |
+
+trade_log
+| Column            | Type    |
+| ----------------- | ------- |
+| trade\_id (PK)    | BIGINT  |
+| backtest\_id (FK) | BIGINT  |
+| date              | DATE    |
+| asset\_id (FK)    | INT     |
+| action            | VARCHAR |
+| quantity          | DECIMAL |
+| price             | DECIMAL |
+
+6. Data Pipeline Management
+
+data_source_log
+| Column           | Type      |
+| ---------------- | --------- |
+| log\_id (PK)     | BIGINT    |
+| source\_name     | VARCHAR   |
+| endpoint         | VARCHAR   |
+| request\_time    | TIMESTAMP |
+| status\_code     | INT       |
+| records\_fetched | INT       |
+| error\_message   | TEXT      |
+
+preprocessing_steps
+| Column        | Type      |
+| ------------- | --------- |
+| step\_id (PK) | BIGINT    |
+| dataset\_name | VARCHAR   |
+| step\_order   | INT       |
+| description   | TEXT      |
+| parameters    | JSONB     |
+| executed\_at  | TIMESTAMP |
+
+raw_data_cache
+| Column         | Type           |
+| -------------- | -------------- |
+| cache\_id (PK) | BIGINT         |
+| source\_name   | VARCHAR        |
+| endpoint       | VARCHAR        |
+| request\_time  | TIMESTAMP      |
+| raw\_payload   | JSONB          |
+| asset\_id (FK) | INT (nullable) |
+
+ER DIAGRAM -------------------------------------------------------------------------------------------------------------
+
+    assets ||--o{ price_data : has
+    assets ||--o{ fundamentals : has
+    assets ||--o{ technical_indicators : has
+    assets ||--o{ graph_features : has
+    assets ||--o{ time_series_features : has
+    assets ||--o{ alpha_signals : has
+    assets ||--o{ model_explanations : has
+    assets ||--o{ portfolio_holdings : in
+    assets ||--o{ trade_log : traded_in
+
+    asset_universe_versions ||--o{ asset_universe_members : contains
+    assets ||--o{ asset_universe_members : member_of
+
+    model_runs ||--o{ alpha_signals : generates
+    model_runs ||--o{ backtest_results : evaluated_in
+    model_runs ||--o{ validation_folds : uses
+    model_runs ||--o{ model_explanations : explains
+    model_runs ||--o{ model_experiment_link : linked_to
+
+    experiment_tags ||--o{ model_experiment_link : has
+
+    backtest_results ||--o{ portfolio_holdings : contains
+    backtest_results ||--o{ trade_log : records
+
+    macro_indicators
+    regime_indicators
+
+    data_source_log
+    preprocessing_steps
+    raw_data_cache
+
+------------------------------------------------------------------------------------------------------------------------
+
+1. Asset Identification
+Table: assets
+
+Purpose: Provides a unique asset_id for each instrument in your universe (AAPL, MSFT, SPY, etc.).
+
+Why it matters:
+Every other table references asset_id instead of repeating ticker names.
+This ensures:
+
+Faster joins
+
+No ambiguity if tickers change over time (corporate actions)
+
+Easy versioning of universes
+
+Example:
+
+asset_id	ticker	name
+1	AAPL	Apple Inc.
+2	MSFT	Microsoft
+
+2. Historical Market Data
+Table: price_data
+
+One row = one asset on one date with OHLCV values.
+
+Indexed on (asset_id, date) so queries for a single asset’s history are fast.
+
+Example (Apple):
+
+asset_id	date	open_price	high_price	low_price	close_price	volume
+1	2024-01-02	192.34	194.20	191.10	193.65	87M
+1	2024-01-03	193.50	196.00	192.80	195.12	92M
+
+3. Fundamentals Over Time
+Table: fundamentals
+
+Same asset_id + report_date structure.
+
+Quarterly/annual frequency, but can be forward-filled to align with daily data.
+
+Example (Apple):
+
+asset_id	report_date	pe_ratio	roe
+1	2023-12-31	25.3	28.1%
+
+4. Macro & Regime Data
+Tables: macro_indicators, regime_indicators
+
+These are not asset-specific, but still time-indexed by date.
+
+Can be joined to every asset’s daily row using the date as the key.
+
+Example (VIX):
+
+date	vix
+2024-01-02	17.8
+2024-01-03	18.2
+
+5. Feature Engineering Tables
+Tables: technical_indicators, graph_features, time_series_features
+
+All keyed by asset_id + date (or just date for pure graph-level features).
+
+Computed after cleaning and alignment of raw data.
+
+Example (technical_indicators for Apple):
+
+asset_id	date	momentum	volatility
+1	2024-01-02	0.025	0.18
+
+6. Data Alignment Across Assets
+Since each table has:
+
+bash
+Copy
+Edit
+(asset_id, date)
+as a primary composite key (or at least a unique index), you can:
+
+Join OHLCV data, fundamentals, and features easily
+
+Filter for a single date across all assets for cross-sectional analysis
+
+Resample all series to a common frequency (daily, weekly, etc.)
+
+7. Historical Graph Relationships
+In graph_features, embeddings and centrality measures are tied to date + asset_id.
+
+This allows you to reconstruct the graph snapshot at any point in history by pulling all rows for that date.
+
+8. Flow in the Project
+Here’s how mapping works from ingestion → features → models:
+
+Raw OHLCV/Fundamentals Ingestion → store in price_data & fundamentals.
+
+Macro & Regime Data → store separately, join by date later.
+
+Feature Computation:
+
+Technical indicators → technical_indicators
+
+Time-series analysis → time_series_features
+
+Graph embeddings → graph_features
+
+Historical Join:
+For a given asset and date, join all features → single training row for models.
+
+Model Outputs:
+Alpha predictions stored in alpha_signals with (run_id, asset_id, date).
