@@ -1,6 +1,7 @@
 import pytest
 from sqlalchemy import create_engine, text
 import os
+import yaml
 
 # Load database configuration from environment variables (with defaults)
 DB_HOST = os.getenv('DB_HOST', 'localhost')

@@ -1,5 +1,5 @@
 """
-db_structure.py
+db_schema.py
 Initializes the Alpha Signal Discovery database schema.
 """
 
