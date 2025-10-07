@@ -8,6 +8,7 @@ import logging
 from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
+ROOT = Path(__file__).resolve().parents[2]
 
 def load_config(config_path: str) -> Dict[str, Any]:
     """
@@ -35,6 +36,24 @@ def load_config(config_path: str) -> Dict[str, Any]:
     except Exception as e:
         logger.error(f"An unexpected error occurred while loading config {config_path}: {e}")
         raise
+
+def load_db_config():
+    cfg_path = ROOT / "config" / "db_config.yaml"
+    with open(cfg_path, "r") as f:
+        cfg = yaml.safe_load(f)
+    db = cfg.get("db", {})
+    # Allow env var overrides
+    db['user'] = os.getenv("DB_USER", db.get('user'))
+    db['password'] = os.getenv("DB_PASSWORD", db.get('password'))
+    db['host'] = os.getenv("DB_HOST", db.get('host'))
+    db['port'] = int(os.getenv("DB_PORT", db.get('port')))
+    db['dbname'] = os.getenv("DB_NAME", db.get('dbname', db.get('dbname')))
+    return db
+
+def load_data_sources():
+    cfg_path = ROOT / "config" / "data_sources.json"
+    with open(cfg_path, "r") as f:
+        return json.load(f)
 
 def load_all_configs(config_dir: str = "config/") -> Dict[str, Any]:
     """

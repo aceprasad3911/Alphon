@@ -12,7 +12,7 @@ from pathlib import Path
 from datetime import datetime
 
 # Import modules from your project structure
-from src.utils.config_loader import load_all_configs
+from src.utils.config_utils import load_all_configs
 from src.data_sourcing import DATA_SOURCES
 from src.processing.cleaner import clean_data, align_data
 from src.processing.featurizer import generate_features
