@@ -390,6 +390,34 @@ def verify_connection(config):
         return False
 
 
+# Clear all data from tables after verification (resets sequences and handles FKs)
+def clear_data(config):
+    """Clear all data from the database tables after verification, resetting to empty state."""
+    db_name = os.getenv('DB_NAME', 'alphondb')
+    app_config = load_db_config()
+    app_config['dbname'] = db_name  # Switch to app DB
+    try:
+        conn = psycopg2.connect(**app_config)
+        cur = conn.cursor()
+        clear_sql = """
+        TRUNCATE TABLE assets, asset_universe_versions, asset_universe_members, price_data, 
+        fundamentals, macro_indicators, regime_indicators, technical_indicators, graph_features, 
+        time_series_features, model_runs, experiment_tags, model_experiment_link, validation_folds, 
+        model_explanations, alpha_signals, backtest_results, portfolio_holdings, trade_log, 
+        data_source_log, preprocessing_steps, raw_data_cache
+        RESTART IDENTITY CASCADE;
+        """
+        cur.execute(clear_sql)
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Cleared all data from tables (sequences reset) ✅")
+        return True
+    except psycopg2.Error as e:
+        print(f"Error clearing data: {e}")
+        return False
+
+
 def db_init():
     print("Starting PostgreSQL setup...\n")
 
@@ -416,5 +444,13 @@ def db_init():
     if not verify_connection(config):
         sys.exit(1)
 
+    # Step 5: Clear data after verification
+    if not clear_data(config):
+        sys.exit(1)
+
     print(" Database is ready. PostgreSQL startup and initialization complete ✅")
     print("\nBegin application now. \nUse 'python shutdown_postgres.py' to stop the server.")
+
+
+if __name__ == "__main__":
+    db_init()

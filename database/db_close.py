@@ -57,7 +57,7 @@ def verify_shutdown():
         print("❌ PostgreSQL is still running.")
         return False
     except psycopg2.OperationalError:
-        print("✅ PostgreSQL server is fully stopped.")
+        print("✅ PostgreSQL stoppage verification succesful.")
         return True
     except Exception as e:
         print(f"⚠️ Unexpected error during verification: {e}")
@@ -75,7 +75,7 @@ def db_close():
     time.sleep(3)
 
     if verify_shutdown():
-        print("🟢 PostgreSQL has been cleanly stopped.")
+        print("🟢 PostgreSQL Server has been cleanly stopped.")
     else:
         print("🔴 PostgreSQL may still be running or failed to stop properly.")
 
@@ -84,3 +84,5 @@ def db_close():
 # ENTRY POINT
 # ------------------------------------------------------------
 
+if __name__ == "__main__":
+    db_close()
