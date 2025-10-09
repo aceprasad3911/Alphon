@@ -3,6 +3,7 @@
 # Helper functions for graph data manipulation
 
 import networkx as nx
+import pandas as pd
 import torch
 from torch_geometric.data import Data
 import logging
