@@ -1,1 +1,4 @@
+data/data_stage0_sources/local/MYFD/stock_details_5_years.csv filter=lfs diff=lfs merge=lfs -text
+data/data_stage0_sources/local/DHSP_1970_to_2018/historical_stock_prices.csv filter=lfs diff=lfs merge=lfs -text
+data/data_stage0_sources/local/US_HSP_wt_earnings_data/stocks_latest/stock_prices_latest.csv filter=lfs diff=lfs merge=lfs -text
 data/**/*.csv filter=lfs diff=lfs merge=lfs -text
