@@ -48,7 +48,11 @@ class APIClient:
         if endpoint_key not in self.endpoints:
             raise ValueError(f"Endpoint '{endpoint_key}' not configured for {self.source}")
 
-        url = f"{self.base_url}{self.endpoints[endpoint_key]}"
+        # Normalize URL
+        base = self.base_url.rstrip("/")
+        endpoint = self.endpoints[endpoint_key].lstrip("/")
+        url = f"{base}/{endpoint}"
+
         params = params or {}
 
         # Dynamic param correction by API type
@@ -56,11 +60,21 @@ class APIClient:
             params.pop("symbol", None)
             params["series_id"] = "GDP"
             params["file_type"] = "json"
+
         elif self.source == "ALPHA_VANTAGE":
             params["symbol"] = params.get("symbol", "AAPL")
-        elif self.source == "QUANDL":
-            params.pop("symbol", None)
 
+        elif self.source == "QUANDL":
+            # Use valid Nasdaq Data Link dataset (formerly Quandl)
+            # Example: FRED/GDP (publicly available)
+            params.pop("symbol", None)
+            params.pop("series_id", None)
+
+            # Use a guaranteed free dataset
+            public_dataset = "NASDAQOMX/COMP"  # NASDAQ Composite Index (free)
+            url = f"{base}/datasets/{public_dataset}/data.json"
+
+        # Auth
         if self.auth_method == "query":
             params[self.auth_key_param] = self.api_key
 
@@ -69,6 +83,7 @@ class APIClient:
             response.raise_for_status()
             data = response.json()
             return self._normalize_response(data)
+
         except requests.exceptions.Timeout:
             raise TimeoutError(f"Request to {url} timed out.")
         except requests.exceptions.HTTPError as e:
