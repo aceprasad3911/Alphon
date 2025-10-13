@@ -1,5 +1,3 @@
-# db_init.py
-
 import os
 import subprocess
 import sys
@@ -112,6 +110,22 @@ def create_database(config):
         print(f"[ERROR] Database creation failed: {e}")
         return False
 
+def reset_schema():
+    try:
+        app_config = load_db_config()
+        app_config["dbname"] = env["DB_NAME"]
+        conn = psycopg2.connect(**app_config)
+        cur = conn.cursor()
+        cur.execute("DROP SCHEMA public CASCADE; CREATE SCHEMA public;")
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Dropped and recreated schema ✅")
+        return True
+    except psycopg2.Error as e:
+        print(f"[ERROR] Failed to reset schema: {e}")
+        return False
+
 
 # --- Initialize database schema ---
 def init_schema():
@@ -121,11 +135,16 @@ def init_schema():
     schema_sql = """
 CREATE TABLE IF NOT EXISTS assets (
         asset_id SERIAL PRIMARY KEY,
-        ticker TEXT UNIQUE NOT NULL,
-        name TEXT,
-        sector TEXT,
-        country TEXT,
-        currency TEXT
+        ticker VARCHAR(20) NOT NULL,
+        name VARCHAR(255),
+        exchange VARCHAR(50) NOT NULL,
+        sector VARCHAR(100),
+        country VARCHAR(50),
+        currency VARCHAR(10),
+        isin VARCHAR(12),
+        active BOOLEAN DEFAULT TRUE,
+        inception_date DATE,
+        UNIQUE (ticker, exchange)
     );
 
 CREATE TABLE IF NOT EXISTS asset_universe_versions (
@@ -350,6 +369,9 @@ def db_init():
     if not create_database(config):
         sys.exit(1)
 
+    if not reset_schema():
+        sys.exit(1)
+
     if not init_schema():
         sys.exit(1)
 
@@ -359,8 +381,8 @@ def db_init():
     if not clear_data():
         sys.exit(1)
 
+if __name__ == "__main__":
+    db_init()
     print("\n✅ Database is ready for use.\nUse 'python shutdown_postgres.py' to stop the server.")
 
 
-if __name__ == "__main__":
-    db_init()
