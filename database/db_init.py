@@ -138,6 +138,7 @@ CREATE TABLE IF NOT EXISTS assets (
         ticker VARCHAR(20) NOT NULL,
         name VARCHAR(255),
         exchange VARCHAR(50) NOT NULL,
+        sp500_status BOOLEAN DEFAULT FALSE,
         sector VARCHAR(100),
         country VARCHAR(50),
         currency VARCHAR(10),
@@ -145,6 +146,16 @@ CREATE TABLE IF NOT EXISTS assets (
         active BOOLEAN DEFAULT TRUE,
         inception_date DATE,
         UNIQUE (ticker, exchange)
+    );
+    
+CREATE TABLE IF NOT EXISTS asset_universe_changes (
+        change_id SERIAL PRIMARY KEY,
+        version_id INT REFERENCES asset_universe_versions(version_id),
+        date_effective DATE NOT NULL,
+        action TEXT CHECK (action IN ('ADDED', 'REMOVED')),
+        ticker VARCHAR(20),
+        asset_id INT REFERENCES assets(asset_id),
+        reason TEXT
     );
 
 CREATE TABLE IF NOT EXISTS asset_universe_versions (
