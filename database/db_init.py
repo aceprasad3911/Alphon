@@ -140,22 +140,38 @@ CREATE TABLE IF NOT EXISTS assets (
         exchange VARCHAR(50) NOT NULL,
         sp500_status BOOLEAN DEFAULT FALSE,
         sector VARCHAR(100),
+        industry VARCHAR(100),
         country VARCHAR(50),
         currency VARCHAR(10),
-        isin VARCHAR(12),
-        active BOOLEAN DEFAULT TRUE,
+        isin VARCHAR(20),
+        source VARCHAR(50),
         inception_date DATE,
+        end_date DATE,
+        active_status BOOLEAN DEFAULT TRUE,
+        notes VARCHAR(500),
         UNIQUE (ticker, exchange)
     );
     
-CREATE TABLE IF NOT EXISTS asset_universe_changes (
+
+CREATE TABLE IF NOT EXISTS data_source_log (
+        log_id SERIAL PRIMARY KEY,
+        source_name TEXT,
+        date_fetched TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status TEXT
+    );
+    
+CREATE TABLE IF NOT EXISTS index_membership_changes (
         change_id SERIAL PRIMARY KEY,
-        version_id INT REFERENCES asset_universe_versions(version_id),
-        date_effective DATE NOT NULL,
-        action TEXT CHECK (action IN ('ADDED', 'REMOVED')),
-        ticker VARCHAR(20),
-        asset_id INT REFERENCES assets(asset_id),
-        reason TEXT
+        effective_date DATE NOT NULL,                 -- The date the change takes effect
+        added_ticker VARCHAR(20),                     -- Ticker added
+        added_name VARCHAR(255),                      -- Company name added
+        removed_ticker VARCHAR(20),                   -- Ticker removed
+        removed_name VARCHAR(255),                    -- Company name removed
+        reason TEXT,                                  -- Reason for change
+        index_name TEXT DEFAULT 'S&P 500',            -- Name of the index
+        source TEXT,                                  -- Source of the data
+        batch_id INT REFERENCES data_source_log(log_id),  -- Optional ingestion batch reference
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
 CREATE TABLE IF NOT EXISTS asset_universe_versions (

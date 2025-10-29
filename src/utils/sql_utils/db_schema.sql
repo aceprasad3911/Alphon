@@ -1,10 +1,20 @@
 CREATE TABLE IF NOT EXISTS assets (
         asset_id SERIAL PRIMARY KEY,
-        ticker TEXT UNIQUE NOT NULL,
-        name TEXT,
-        sector TEXT,
-        country TEXT,
-        currency TEXT
+        ticker VARCHAR(20) NOT NULL,
+        name VARCHAR(255),
+        exchange VARCHAR(50) NOT NULL,
+        sp500_status BOOLEAN DEFAULT FALSE,
+        sector VARCHAR(100),
+        industry VARCHAR(100),
+        country VARCHAR(50),
+        currency VARCHAR(10),
+        isin VARCHAR(20),
+        source VARCHAR(50),
+        inception_date DATE,
+        end_date DATE,
+        active_status BOOLEAN DEFAULT TRUE,
+        notes VARCHAR(500),
+        UNIQUE (ticker, exchange)
     );
 
 CREATE TABLE IF NOT EXISTS asset_universe_versions (
